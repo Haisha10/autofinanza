@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-welcome-content',
@@ -6,6 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./welcome-content.component.css']
 })
 export class WelcomeContentComponent {
+
+  @Output() loginEvent = new EventEmitter();
+	@Output() logoutEvent = new EventEmitter();
+
   scrollToElement(id: string): void {
     const element = document.getElementById(id);
     element?.scrollIntoView({behavior: "smooth"});

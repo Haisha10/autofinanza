@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ButtonsComponent } from './components/auth-content/buttons/buttons.component';
+import { ButtonsComponent } from './components/buttons/buttons.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { WelcomeContentComponent } from './components/welcome-content/welcome-content.component';
 import { AuthContentComponent } from './components/auth-content/auth-content.component';

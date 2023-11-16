@@ -1,10 +1,10 @@
 <div class="header">
   <div class="Logo"><img src="assets/images/UPC-logo.png" alt="Logo UPC" /></div>
   <nav>
-    <a (click)="scrollToElement('Inicio')">Inicio</a>
-    <a (click)="scrollToElement('Informacion')">Informacion</a>
-    <a (click)="scrollToElement('Aplicacion')">Nuestra aplicación</a>
-    <a (click)="scrollToElement('Equipo')">Nosotros</a>
+    <a (click)="scrollToElement('Inicio')" style="cursor: pointer;">Inicio</a>
+    <a (click)="scrollToElement('Informacion')" style="cursor: pointer;">Informacion</a>
+    <a (click)="scrollToElement('Aplicacion')" style="cursor: pointer;">Nuestra aplicación</a>
+    <a (click)="scrollToElement('Equipo')" style="cursor: pointer;">Nosotros</a>
   </nav>
 </div>
 <div class="main">
@@ -17,7 +17,7 @@
             en minutos.<br>
             Regístrate o inicia sesión para hacer tu simulación</p>
 
-        <a class="boton" href="#" target="_blank"><b>EMPIEZA AHORA</b></a>
+        <a class="boton" (click)="loginEvent.emit()"><b>EMPIEZA AHORA</b></a>
     </div>
     <!-- <div class="inicio-div2">
         <img src="assets/images/prestamo-vehicular.jpg" alt="Credito vehicular"><br>
@@ -115,7 +115,7 @@
         </div>
     </div>
     <div class="btn">
-        <a href="index.html#Inicio">PRUÉBALA AHORA</a>
+        <a (click)="loginEvent.emit()">PRUÉBALA AHORA</a>
     </div>
     <br>
 </section>
