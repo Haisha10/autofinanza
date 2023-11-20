@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { AxiosService } from '../../axios.service';
+import { User } from 'src/app/models/user.model';
+import { currentUser } from 'src/app/user-info';
+
 
 @Component({
   selector: 'app-auth-content',
@@ -7,14 +10,18 @@ import { AxiosService } from '../../axios.service';
   styleUrls: ['./auth-content.component.css']
 })
 export class AuthContentComponent {
-  data: string[] = [];
+
+  @Output() logoutEvent = new EventEmitter();
+
+  data: User = currentUser;
 
   constructor(private axiosService: AxiosService) {}
 
   ngOnInit(): void {
+    /*
     this.axiosService.request(
         "GET",
-        "/messages",
+        "/currentUser",
         {}).then(
         (response) => {
             this.data = response.data;
@@ -28,6 +35,11 @@ export class AuthContentComponent {
 
         }
     );
+    */
   }
 
+  scrollToElement(id: string): void {
+    const element = document.getElementById(id);
+    element?.scrollIntoView({behavior: "smooth"});
+  }
 }

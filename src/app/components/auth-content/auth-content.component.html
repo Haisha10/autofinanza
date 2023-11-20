@@ -1,13 +1,279 @@
-<div class="row justify-content-md-center">
-  <div class="col-4">
-    <div class="card" style="width: '18rem'">
-      <div class="card-body">
-        <h5 class="card-title">Backend response</h5>
-        <p class="card-text">Content:</p>
-        <ul>
-          <li *ngFor="let line of data">{{line}}</li>
-        </ul>
-      </div>
+<div class="body">
+  <div class="header">
+    <div class="header-div1">
+      <img src="assets/images/avatar.png" alt="Usuario" />
+      <h1><b>{{data.firstName}}</b></h1>
     </div>
+    <div class="header-div2">
+      <nav>
+        <a class="toInicio" (click)="scrollToElement('Inicio')"
+          ><img src="assets/images/logo-inicio.png" alt="logo-inicio" /><b
+            >Inicio</b
+          ></a
+        >
+        <a class="toOperaciones" (click)="scrollToElement('Operaciones')"
+          ><img src="assets/images/operaciones.png" alt="logo-operaciones" /><b
+            >Operaciones</b
+          ></a
+        >
+      </nav>
+      <button (click)="logoutEvent.emit()"><b>Logout</b></button>
+    </div>
+  </div>
+  <div class="main">
+    <section id="Inicio" class="inicio">
+      <div class="inicio-div1">
+        <h1>Bienvenido, {{data.firstName}}!</h1>
+        <img src="assets/images/UPC-logo.png" alt="Logo UPC" />
+      </div>
+      <h3>Principales entidades financieras</h3>
+      <div class="entidades">
+        <div>
+          <a href="https://www.viabcp.com/" target="_blank"
+            ><img src="assets/images/bcp.png" alt="bcp"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.bbva.pe/" target="_blank"
+            ><img src="assets/images/bbva.png" alt="bbca"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.bn.com.pe/" target="_blank"
+            ><img src="assets/images/banco-de-la-nacion.jpg" alt="bn"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.scotiabank.com.pe/" target="_blank"
+            ><img src="assets/images/scotiabank.png" alt="scotiabank"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.bancofalabella.pe/" target="_blank"
+            ><img src="assets/images/falabella.png" alt="falabella"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.bancoripley.com.pe/" target="_blank"
+            ><img src="assets/images/ripley.png" alt="ripley"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.pichincha.pe/" target="_blank"
+            ><img src="assets/images/pichincha.png" alt="pichincha"
+          /></a>
+        </div>
+        <div>
+          <a href="https://interbank.pe/" target="_blank"
+            ><img src="assets/images/interbank.png" alt="interbank"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.banbif.com.pe/" target="_blank"
+            ><img src="assets/images/banbif.png" alt="banbif"
+          /></a>
+        </div>
+        <div>
+          <a href="https://www.mibanco.com.pe/" target="_blank"
+            ><img src="assets/images/mibanco.png" alt="mibanco"
+          /></a>
+        </div>
+      </div>
+    </section>
+    <section id="Operaciones" class="operaciones">
+      <h1>Operaciones</h1>
+      <div>
+        <form id="calcularForm">
+          <div class="moneda">
+            <label for="tipo_moneda">Tipo de moneda</label>
+            <select id="tipo_moneda" name="tipo_moneda">
+              <option value="sol">Sol</option>
+              <option value="dolar">Dolar</option>
+            </select>
+          </div>
+          <br />
+
+          <div class="precio">
+            <label for="precio">Valor del vehiculo</label
+            ><input type="text" id="precio" name="precio" />
+          </div>
+
+          <br />
+
+          <div class="cuota-inicial">
+            <label for="cuota_inicial">Cuota inicial</label
+            ><input
+              type="text"
+              id="cuota_inicial"
+              name="cuota_inicial"
+              oninput="verificarContenido(this,'capital')"
+            />
+          </div>
+
+          <br />
+
+          <div class="capital">
+            <label for="capital">Capital</label
+            ><input
+              type="text"
+              id="capital"
+              name="capital"
+              oninput="verificarContenido(this,'cuota_inicial')"
+            />
+          </div>
+
+          <br />
+
+          <div class="tasa-interes">
+            <label>Tasa de interes</label>
+            <div class="tasa-interes-divs">
+              <div class="tasa-interes-div1">
+                <div>
+                  <label for="nominal"
+                    >Nominal<input
+                      type="checkbox"
+                      id="nominal"
+                      data-target="valor-tasa-nominal"
+                      name="nominal"
+                      onchange="activarRequired(this)"
+                  /></label>
+                </div>
+                <div>
+                  <label for="valor-tasa-nominal"
+                    >Valor
+                    <input
+                      type="text"
+                      name="valor-tasa-nominal"
+                      id="valor-tasa-nominal"
+                    />
+                    %</label
+                  >
+                </div>
+              </div>
+              <div class="tasa-interes-div2">
+                <div>
+                  <label for="efectiva"
+                    >Efectiva<input
+                      type="checkbox"
+                      id="efectiva"
+                      data-target="valor-tasa-efectiva"
+                      name="efectiva"
+                      onchange="activarRequired(this)"
+                  /></label>
+                </div>
+                <div>
+                  <label for="valor-tasa-efectiva"
+                    >Valor
+                    <input
+                      type="text"
+                      id="valor-tasa-efectiva"
+                      name="valor-tasa-efectiva"
+                    />
+                    %</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+
+          <div class="capitalizacion">
+            <label for="capitalizacion">Capitalizacion</label
+            ><!--input type="text" id="capitalizacion" name="capitalizacion"-->
+            <select name="capitalizacion" id="capitalizacion">
+              <option value="diaria">diaria</option>
+              <option value="mensual">mensual</option>
+              <option value="bimestral">bimestral</option>
+              <option value="trimestral">trimestral</option>
+              <option value="cuatrimestral">cuatrimestral</option>
+              <option value="semestral">semestral</option>
+            </select>
+          </div>
+          <br />
+
+          <div class="frecuencia_de_pago">
+            <label for="frecuencia_pago">Frecuencia de pago</label>
+            <select name="frecuencia_pago" id="frecuencia_pago">
+              <option value="mensual">mensual</option>
+              <option value="bimestral">bimestral</option>
+              <option value="trimestral">trimestral</option>
+              <option value="cuatrimestral">cuatrimestral</option>
+              <option value="semestral">semestral</option>
+              <option value="anual">anual</option>
+            </select>
+          </div>
+
+          <br />
+          <div class="periodo">
+            <label>Periodo de la operacion</label>
+            <div class="periodo-div">
+              <label for="inicio">Inicio</label
+              ><input type="text" id="inicio" name="inicio" />
+              <label for="fin">Fin</label
+              ><input type="text" id="fin" name="fin" />
+            </div>
+          </div>
+          <br />
+
+          <div class="plazo-gracia">
+            <label>Plazo de gracia</label>
+            <div class="plazo-gracia-divs">
+              <div class="plazo-gracia-div1">
+                <div>
+                  <label for="parcial"
+                    >Parcial<!--input type="checkbox" id="parcial" name="parcial"--></label
+                  >
+                </div>
+                <div>
+                  <!-- <input type="text" id="valor-plazo-parcial" name="valor-plazo-parcial"> -->
+                  <!-- <select name="periodos_parcial" id="periodos_parcial"></select> -->
+                  <label for="parcial-desde"
+                    >Empieza en periodo N°
+                    <input type="text" id="parcial-desde" name="parcial-desde"
+                  /></label>
+                  <br />
+                  <label for="parcial-cantidad"
+                    >Cantidad de periodos
+                    <input
+                      type="text"
+                      id="parcial-cantidad"
+                      name="parcial-cantidad"
+                  /></label>
+                </div>
+              </div>
+              <div class="plazo-gracia-div2">
+                <div>
+                  <label for="total"
+                    >Total<!--input type="checkbox" id="total" name="total"--></label
+                  >
+                </div>
+                <div>
+                  <!-- <input type="text" id="valor-plazo-total" name="valor-plazo-total"> -->
+                  <!-- <select name="periodos_total" id="periodos_total"></select> -->
+                  <label for="total-desde"
+                    >Empieza en periodo N°
+                    <input type="text" id="total-desde" name="total-desde" />
+                  </label>
+                  <br />
+                  <label for="total-cantidad"
+                    >Cantidad de periodos
+                    <input
+                      type="text"
+                      id="total-cantidad"
+                      name="total-cantidad"
+                  /></label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <button type="submit">Registrar</button>
+        </form>
+      </div>
+    </section>
+    <section id="Resultados" class="resultados">
+      <div id="Datos" class="datos"></div>
+      <div id="tabla-resultados" class="tabla_resultados"></div>
+    </section>
   </div>
 </div>

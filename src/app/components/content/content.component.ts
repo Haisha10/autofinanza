@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AxiosService } from '../../axios.service';
+import { currentUser } from 'src/app/user-info';
 
 @Component({
   selector: 'app-content',
@@ -26,6 +27,11 @@ export class ContentComponent {
 		    response => {
 		        this.axiosService.setAuthToken(response.data.token);
 		        this.componentToShow = "messages";
+            currentUser.id = response.data.id;
+            currentUser.firstName = response.data.firstName;
+            currentUser.lastName = response.data.lastName;
+            currentUser.login = response.data.login;
+            currentUser.token = response.data.token;
 		    }).catch(
 		    error => {
 		        this.axiosService.setAuthToken(null);
@@ -48,6 +54,11 @@ export class ContentComponent {
 		    response => {
 		        this.axiosService.setAuthToken(response.data.token);
 		        this.componentToShow = "messages";
+            currentUser.id = response.data.id;
+            currentUser.firstName = response.data.firstName;
+            currentUser.lastName = response.data.lastName;
+            currentUser.login = response.data.login;
+            currentUser.token = response.data.token;
 		    }).catch(
 		    error => {
 		        this.axiosService.setAuthToken(null);

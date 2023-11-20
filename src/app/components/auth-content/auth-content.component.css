@@ -1,0 +1,395 @@
+.body {
+  background-color: rgb(77, 77, 77);
+}
+/*Header*/
+.header {
+  /* position: fixed;
+  top: 0;
+  left: 0;
+  width: 20%;
+  background-color: #333;
+  color: #fff;
+  padding: 10px; */
+  /* background-color: gray; */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 400px;
+  /* padding: 10px; */
+}
+
+.header-div1 {
+  background-color: darkgray;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.header-div1 img {
+  width: 100px;
+  height: auto;
+}
+
+.header-div2 {
+  /* background-color: lightblue; */
+  background-image: url("../../../assets/images/prestamo-vehicular.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* display:;
+  align-items: center;
+  justify-content:center; */
+  text-align: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.header-div2 nav a {
+  font-size: 30px;
+
+  display: block;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  margin-left: 70px;
+  margin-right: 70px;
+  margin-bottom: 10px;
+  padding: 15px 30px;
+}
+.header-div2 nav a img {
+  width: 30px;
+  height: auto;
+}
+.toInicio {
+  cursor: pointer;
+  color: black;
+  border: 5px solid;
+  border-color: black;
+  background-color: lightgreen;
+}
+.toOperaciones {
+  cursor: pointer;
+  color: black;
+  border: 5px solid;
+  border-color: black;
+  background-color: lightgray;
+}
+
+.header-div2 button {
+  font-size: 30px;
+  color: black;
+  border: 5px solid;
+  border-color: black;
+  background-color: red;
+  margin-top: 180px;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+/*Fin Header*/
+.main {
+  margin-left: 500px;
+  background-color: rgb(77, 77, 77);
+}
+/*Inicio*/
+.inicio {
+  /* background-color: black; */
+  color: white;
+  font-size: 20px;
+}
+
+.inicio-div1 {
+  display: flex;
+  justify-content: space-between;
+}
+.inicio-div1 h1 {
+  font-size: 40px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.inicio-div1 img {
+  width: 150px;
+  height: auto;
+}
+
+.entidades {
+  display: grid;
+  /* grid-template-columns:50px 50px 50px 50px 50px; */
+  grid-template-columns: auto auto auto auto auto;
+  gap: 5px;
+  padding: 10px;
+}
+.entidades img {
+  max-width: 100%;
+  height: auto;
+}
+/*Fin Inicio*/
+
+/*Operaciones*/
+.operaciones {
+  /* background-color: black; */
+  color: white;
+}
+.operaciones h1 {
+  font-size: 40px;
+}
+.operaciones div {
+  background-color: rgb(1, 1, 99);
+  padding: 20px;
+  font-size: 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+.operaciones div form {
+  text-align: center;
+}
+.operaciones div form input {
+  font-size: 25px;
+}
+.operaciones div form input[type="checkbox"] {
+  width: 30px; /* Ancho del checkbox personalizado */
+  height: 30px; /* Altura del checkbox personalizado */
+  background-color: #fff; /* Color de fondo */
+  border: 2px solid #333; /* Borde del checkbox */
+  border-radius: 5px;
+}
+.moneda {
+  display: flex;
+  justify-content: space-between;
+}
+.moneda select {
+  font-size: 25px;
+}
+
+.capital {
+  display: flex;
+  justify-content: space-between;
+}
+.precio {
+  display: flex;
+  justify-content: space-between;
+}
+.cuota-inicial {
+  display: flex;
+  justify-content: space-between;
+}
+.frecuencia_de_pago {
+  display: flex;
+  justify-content: space-between;
+}
+.frecuencia_de_pago select {
+  font-size: 25px;
+}
+
+.tasa-interes {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tasa-interes-div1 {
+  display: block;
+  margin-top: 5px;
+}
+.tasa-interes-div2 {
+  display: block;
+  margin-top: 5px;
+}
+/* .tasa-interes-div1,.tasa-interes-div2 input{
+  margin-left: 100px;
+} */
+
+.capitalizacion {
+  display: flex;
+  justify-content: space-between;
+}
+.capitalizacion select {
+  font-size: 25px;
+}
+.plazo-gracia {
+  display: flex;
+  justify-content: space-between;
+}
+.plazo-gracia-div1 {
+  display: block;
+  margin-top: 5px;
+}
+.plazo-gracia-div2 {
+  display: block;
+  margin-top: 5px;
+}
+
+.periodo {
+  display: block;
+  text-align: left;
+  /* justify-content: space-between; */
+}
+.periodo-div {
+  display: flex;
+  justify-content: space-between;
+}
+.operaciones div form button {
+  font-size: 30px;
+  color: black;
+  border: 3px solid;
+  border-color: black;
+  background-color: lightgreen;
+  padding: 15px 30px;
+  cursor: pointer;
+}
+/*Fin Operaciones*/
+/*Tabla resultado*/
+.resultados {
+  color: white;
+}
+.tabla_resultados {
+  /* background-color: rgb(1, 1, 99); */
+  padding: 20px;
+  font-size: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
+  justify-content: center;
+  /* width: 70%; */
+  border-collapse: collapse;
+}
+.tabla_resultados th {
+  width: 40%;
+}
+.tabla_resultados th,
+td {
+  border: 1px solid black;
+  padding: 8px;
+}
+/*Fin Tabla resultado*/
+
+@media screen and (max-width: 1290px) {
+  .operaciones div {
+    background-color: rgb(1, 1, 99);
+    font-size: 18px;
+    /* margin-left: 20px;
+      margin-right: 20px; */
+  }
+
+  .operaciones div form input {
+    font-size: 10px;
+  }
+
+  .operaciones div form input[type="checkbox"] {
+    width: 15px; /* Ancho del checkbox personalizado */
+    height: 15px; /* Altura del checkbox personalizado */
+    background-color: #fff; /* Color de fondo */
+    border: 2px solid #333; /* Borde del checkbox */
+    border-radius: 5px;
+  }
+  .moneda select {
+    font-size: 15px;
+  }
+  .tasa-interes-div2 input {
+    margin-left: auto;
+  }
+
+  .plazo-gracia-div2 input {
+    margin-left: auto;
+  }
+  .periodo-div {
+    display: block;
+  }
+}
+
+@media screen and (max-width: 880px) {
+  .header {
+    /* position: fixed;
+      top: 0;
+      left: 0;
+      width: 20%;
+      background-color: #333;
+      color: #fff;
+      padding: 10px; */
+    /* background-color: gray; */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    /* padding: 10px; */
+  }
+  .header-div1 {
+    background-color: darkgray;
+    display: block;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  .header-div1 img {
+    width: 50px;
+    height: auto;
+  }
+
+  .header-div2 {
+    background-color: lightblue;
+    /* display:;
+      align-items: center;
+      justify-content:center; */
+    text-align: center;
+    /* padding-top: 20px;
+      padding-bottom: 20px; */
+  }
+  .header-div2 nav a {
+    font-size: 15px;
+
+    display: block;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 10px;
+    /* padding: 5px 10px; */
+  }
+  .toInicio {
+    cursor: pointer;
+    color: black;
+    border: 5px solid;
+    border-color: black;
+    background-color: lightgreen;
+  }
+  .toOperaciones {
+    cursor: pointer;
+    color: black;
+    border: 5px solid;
+    border-color: black;
+    background-color: lightgray;
+  }
+
+  .header-div2 button {
+    font-size: 10px;
+    color: black;
+    border: 5px solid;
+    border-color: black;
+    background-color: red;
+    margin-top: 50px;
+    /* padding: 15px 30px; */
+    cursor: pointer;
+  }
+  .inicio-div1 {
+    display: block;
+    text-align: center;
+    /* justify-content: space-between; */
+  }
+  .main {
+    margin-left: 200px;
+  }
+  .moneda,
+  .capital,
+  .precio,
+  .cuota-inicial,
+  .capitalizacion,
+  .periodo-div,
+  .tasa-interes,
+  .tasa-interes-div1,
+  .plazo-gracia,
+  .plazo-gracia-div1 {
+    display: block;
+  }
+}
