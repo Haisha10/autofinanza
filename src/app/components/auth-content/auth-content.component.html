@@ -2,7 +2,9 @@
   <div class="header">
     <div class="header-div1">
       <img src="assets/images/avatar.png" alt="Usuario" />
-      <h1><b>{{data.firstName}}</b></h1>
+      <h1>
+        <b>{{ data.firstName }}</b>
+      </h1>
     </div>
     <div class="header-div2">
       <nav>
@@ -23,7 +25,7 @@
   <div class="main">
     <section id="Inicio" class="inicio">
       <div class="inicio-div1">
-        <h1>Bienvenido, {{data.firstName}}!</h1>
+        <h1>Bienvenido, {{ data.firstName }}!</h1>
         <img src="assets/images/UPC-logo.png" alt="Logo UPC" />
       </div>
       <h3>Principales entidades financieras</h3>
@@ -86,7 +88,11 @@
         <form id="calcularForm">
           <div class="moneda">
             <label for="tipo_moneda">Tipo de moneda</label>
-            <select id="tipo_moneda" name="tipo_moneda">
+            <select
+              id="tipo_moneda"
+              name="tipo_moneda"
+              [(ngModel)]="tipo_moneda"
+            >
               <option value="sol">Sol</option>
               <option value="dolar">Dolar</option>
             </select>
@@ -95,7 +101,13 @@
 
           <div class="precio">
             <label for="precio">Valor del vehiculo</label
-            ><input type="text" id="precio" name="precio" />
+            ><input
+              type="number"
+              id="precio"
+              name="precio"
+              [(ngModel)]="precio"
+              required
+            />
           </div>
 
           <br />
@@ -103,10 +115,12 @@
           <div class="cuota-inicial">
             <label for="cuota_inicial">Cuota inicial</label
             ><input
-              type="text"
+              type="number"
               id="cuota_inicial"
               name="cuota_inicial"
-              oninput="verificarContenido(this,'capital')"
+              [(ngModel)]="cuota_inicial"
+              (change)="verificarInicial()"
+              [disabled]="!isCuotaInicial"
             />
           </div>
 
@@ -115,11 +129,32 @@
           <div class="capital">
             <label for="capital">Capital</label
             ><input
-              type="text"
+              type="number"
               id="capital"
               name="capital"
-              oninput="verificarContenido(this,'cuota_inicial')"
+              [(ngModel)]="capital"
+              (change)="verificarInicial()"
+              [disabled]="!isCapital"
             />
+          </div>
+
+          <br />
+
+          <div class="elegir-banco">
+            <label for="banco">Banco</label>
+            <select
+              name="banco"
+              id="banco"
+              (change)="desactivarTasa()"
+              [(ngModel)]="banco"
+            >
+              <option value=""></option>
+              <option value="bbva">BBVA</option>
+              <option value="bcp">BCP</option>
+              <option value="banbif">BANBIF</option>
+              <option value="scotiabank">Scotiabank</option>
+              <option value="santander">Santander</option>
+            </select>
           </div>
 
           <br />
@@ -135,16 +170,20 @@
                       id="nominal"
                       data-target="valor-tasa-nominal"
                       name="nominal"
-                      onchange="activarRequired(this)"
+                      [(ngModel)]="isNominal"
+                      [disabled]="!isNominalCheckbox"
+                      (change)="checkboxChange()"
                   /></label>
                 </div>
                 <div>
                   <label for="valor-tasa-nominal"
                     >Valor
                     <input
-                      type="text"
+                      type="number"
                       name="valor-tasa-nominal"
                       id="valor-tasa-nominal"
+                      [(ngModel)]="valor_tasa_nominal"
+                      [disabled]="!isNominal"
                     />
                     %</label
                   >
@@ -158,16 +197,20 @@
                       id="efectiva"
                       data-target="valor-tasa-efectiva"
                       name="efectiva"
-                      onchange="activarRequired(this)"
+                      [(ngModel)]="isEfectiva"
+                      [disabled]="!isEfectivaCheckbox"
+                      (change)="checkboxChange()"
                   /></label>
                 </div>
                 <div>
                   <label for="valor-tasa-efectiva"
                     >Valor
                     <input
-                      type="text"
+                      type="number"
                       id="valor-tasa-efectiva"
                       name="valor-tasa-efectiva"
+                      [(ngModel)]="valor_tasa_efectiva"
+                      [disabled]="!isEfectiva"
                     />
                     %</label
                   >
@@ -180,26 +223,35 @@
           <div class="capitalizacion">
             <label for="capitalizacion">Capitalizacion</label
             ><!--input type="text" id="capitalizacion" name="capitalizacion"-->
-            <select name="capitalizacion" id="capitalizacion">
-              <option value="diaria">diaria</option>
-              <option value="mensual">mensual</option>
-              <option value="bimestral">bimestral</option>
-              <option value="trimestral">trimestral</option>
-              <option value="cuatrimestral">cuatrimestral</option>
-              <option value="semestral">semestral</option>
+            <select
+              name="capitalizacion"
+              id="capitalizacion"
+              [(ngModel)]="capitalizacion"
+              [disabled]="!isNominal"
+            >
+              <option value="360">diaria</option>
+              <option value="12">mensual</option>
+              <option value="6">bimestral</option>
+              <option value="4">trimestral</option>
+              <option value="3">cuatrimestral</option>
+              <option value="2">semestral</option>
             </select>
           </div>
           <br />
 
           <div class="frecuencia_de_pago">
             <label for="frecuencia_pago">Frecuencia de pago</label>
-            <select name="frecuencia_pago" id="frecuencia_pago">
-              <option value="mensual">mensual</option>
-              <option value="bimestral">bimestral</option>
-              <option value="trimestral">trimestral</option>
-              <option value="cuatrimestral">cuatrimestral</option>
-              <option value="semestral">semestral</option>
-              <option value="anual">anual</option>
+            <select
+              name="frecuencia_pago"
+              id="frecuencia_pago"
+              [(ngModel)]="frecuencia_pago"
+            >
+              <option value="30">mensual</option>
+              <option value="60">bimestral</option>
+              <option value="90">trimestral</option>
+              <option value="120">cuatrimestral</option>
+              <option value="180">semestral</option>
+              <option value="360">anual</option>
             </select>
           </div>
 
@@ -208,9 +260,21 @@
             <label>Periodo de la operacion</label>
             <div class="periodo-div">
               <label for="inicio">Inicio</label
-              ><input type="text" id="inicio" name="inicio" />
+              ><input
+                type="date"
+                id="inicio"
+                name="inicio"
+                [(ngModel)]="inicio"
+                required
+              />
               <label for="fin">Fin</label
-              ><input type="text" id="fin" name="fin" />
+              ><input
+                type="date"
+                id="fin"
+                name="fin"
+                [(ngModel)]="fin"
+                required
+              />
             </div>
           </div>
           <br />
@@ -218,32 +282,9 @@
           <div class="plazo-gracia">
             <label>Plazo de gracia</label>
             <div class="plazo-gracia-divs">
-              <div class="plazo-gracia-div1">
-                <div>
-                  <label for="parcial"
-                    >Parcial<!--input type="checkbox" id="parcial" name="parcial"--></label
-                  >
-                </div>
-                <div>
-                  <!-- <input type="text" id="valor-plazo-parcial" name="valor-plazo-parcial"> -->
-                  <!-- <select name="periodos_parcial" id="periodos_parcial"></select> -->
-                  <label for="parcial-desde"
-                    >Empieza en periodo N°
-                    <input type="text" id="parcial-desde" name="parcial-desde"
-                  /></label>
-                  <br />
-                  <label for="parcial-cantidad"
-                    >Cantidad de periodos
-                    <input
-                      type="text"
-                      id="parcial-cantidad"
-                      name="parcial-cantidad"
-                  /></label>
-                </div>
-              </div>
               <div class="plazo-gracia-div2">
                 <div>
-                  <label for="total"
+                  <label
                     >Total<!--input type="checkbox" id="total" name="total"--></label
                   >
                 </div>
@@ -252,28 +293,125 @@
                   <!-- <select name="periodos_total" id="periodos_total"></select> -->
                   <label for="total-desde"
                     >Empieza en periodo N°
-                    <input type="text" id="total-desde" name="total-desde" />
+                    <input
+                      type="number"
+                      id="total-desde"
+                      name="total-desde"
+                      [(ngModel)]="total_desde"
+                    />
                   </label>
                   <br />
                   <label for="total-cantidad"
                     >Cantidad de periodos
                     <input
-                      type="text"
+                      type="number"
                       id="total-cantidad"
                       name="total-cantidad"
+                      [(ngModel)]="total_cantidad"
+                  /></label>
+                </div>
+              </div>
+              <div class="plazo-gracia-div1">
+                <div>
+                  <label
+                    >Parcial<!--input type="checkbox" id="parcial" name="parcial"--></label
+                  >
+                </div>
+                <div>
+                  <!-- <input type="text" id="valor-plazo-parcial" name="valor-plazo-parcial"> -->
+                  <!-- <select name="periodos_parcial" id="periodos_parcial"></select> -->
+                  <label for="parcial-desde"
+                    >Empieza en periodo N°
+                    <input
+                      type="number"
+                      id="parcial-desde"
+                      name="parcial-desde"
+                      [(ngModel)]="parcial_desde"
+                  /></label>
+                  <br />
+                  <label for="parcial-cantidad"
+                    >Cantidad de periodos
+                    <input
+                      type="number"
+                      id="parcial-cantidad"
+                      name="parcial-cantidad"
+                      [(ngModel)]="parcial_cantidad"
                   /></label>
                 </div>
               </div>
             </div>
           </div>
           <br />
-          <button type="submit">Registrar</button>
+          <button type="submit" (click)="calcular()">Registrar</button>
         </form>
       </div>
     </section>
     <section id="Resultados" class="resultados">
-      <div id="Datos" class="datos"></div>
-      <div id="tabla-resultados" class="tabla_resultados"></div>
+      <div id="Datos" class="datos">
+        <h2>Tu Plan de Pagos está listo</h2>
+        <h3>Método Francés</h3>
+        <h3>Precio de venta =</h3>
+        <h3>Cuota inicial =</h3>
+        <h3>% Cuota incial =</h3>
+        <h3>Tasa efectiva =</h3>
+      </div>
+      <div id="tabla-resultados" class="tabla_resultados">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>N</th>
+              <th>Periodo de gracia</th>
+              <th>Saldo Inicial</th>
+              <th>Interes</th>
+              <th>Amortizacion</th>
+              <th>Cuota</th>
+              <th>Saldo Final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-component *mgFor="let resultado of resultados">
+              <tr>
+                <th>{{ resultado.n }}</th>
+                <th>{{ resultado.gracia }}</th>
+                <th>{{ resultado.saldo_inicial }}</th>
+                <th>{{ resultado.interes }}</th>
+                <th>{{ resultado.amortizacion }}</th>
+                <th>{{ resultado.cuota }}</th>
+                <th>{{ resultado.saldo_final }}</th>
+              </tr>
+            </ng-component>
+            <tr>
+              <td colspan="3">TOTAL</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div id="Flujo-de-caja" class="flujo_caja">
+        <div id="van-tir" class="van_tir">
+          <h3>Valor Actual Neto (VAN) =</h3>
+          <h3>El proyecto es rentable</h3>
+          <h3>Tasa Interna de Retorno (TIR) =</h3>
+          <h3>El proyecto es rentable</h3>
+        </div>
+        <div id="flujo" class="tabla-flujo">
+          <table>
+            <thead>
+              <tr>
+                <th>Flujo de caja</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </section>
   </div>
 </div>
