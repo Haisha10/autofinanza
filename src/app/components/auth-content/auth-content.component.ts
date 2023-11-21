@@ -14,6 +14,8 @@ export class AuthContentComponent {
 
   @Output() logoutEvent = new EventEmitter();
 
+  isCalculo: boolean = false;
+
   data: User = currentUser;
 
   tipo_moneda: string = "sol";
@@ -127,6 +129,8 @@ export class AuthContentComponent {
   }
 
   calcular(): void {
+    this.inicio = new Date(this.inicio);
+    this.fin = new Date(this.fin);
     //Calculo de la diferencia de años
     let diferenciaAnios: number = Math.floor(Math.abs(this.fin.getFullYear() - this.inicio.getFullYear()));
     console.log(diferenciaAnios);
@@ -146,6 +150,82 @@ export class AuthContentComponent {
     }
 
     //Calcular tasa final
+    let tasa_final: number = this.getTasaFinal();
+
+    //Calendario
+    let contador_periodo_gracia_total: number = this.total_cantidad;
+    let contador_periodo_gracia_parcial: number = this.parcial_cantidad;
+    let credito_capitalizado: number = saldo_final * (1 + tasa_final) ** this.total_cantidad;
+    let tmp_saldo_inicial: number = 0;
+    let tmp_interes: number = 0;
+    let tmp_amortizacion: number = 0;
+    let tmp_cuota: number = 0;
+    for (let i = 0; i <= periodos; i++) {
+      if (i == 0) {
+        this.resultados.push({
+          n: i,
+          gracia: "",
+          saldo_inicial: 0,
+          interes: 0,
+          amortizacion: 0,
+          cuota: 0,
+          saldo_final: saldo_final
+        });
+      } else {
+        if (contador_periodo_gracia_total > 0) {
+          tmp_saldo_inicial = saldo_final;
+          tmp_amortizacion = 0;
+          tmp_interes = tmp_saldo_inicial * tasa_final;
+          tmp_cuota = 0;
+          saldo_final = tmp_saldo_inicial + tmp_interes;
+          this.resultados.push({
+            n: i,
+            gracia: "T",
+            saldo_inicial: tmp_saldo_inicial,
+            interes: tmp_saldo_inicial * tasa_final,
+            amortizacion: tmp_amortizacion,
+            cuota: tmp_cuota,
+            saldo_final: saldo_final
+          });
+          contador_periodo_gracia_total--;
+        } else if (contador_periodo_gracia_parcial > 0) {
+          tmp_saldo_inicial = saldo_final;
+          tmp_amortizacion = 0;
+          tmp_interes = tmp_saldo_inicial * tasa_final;
+          tmp_cuota = tmp_amortizacion + tmp_interes;
+          saldo_final = tmp_saldo_inicial + tmp_amortizacion;
+          this.resultados.push({
+            n: i,
+            gracia: "P",
+            saldo_inicial: tmp_saldo_inicial,
+            interes: tmp_interes,
+            amortizacion: tmp_amortizacion,
+            cuota: tmp_cuota,
+            saldo_final: saldo_final
+          });
+          contador_periodo_gracia_parcial--;
+        } else {
+          tmp_cuota = credito_capitalizado * ((tasa_final * ((1 + tasa_final) ** (periodos - (this.total_cantidad + this.parcial_cantidad)))) / (((1 + tasa_final) ** (periodos - (this.total_cantidad + this.parcial_cantidad))) - 1));
+          tmp_saldo_inicial = saldo_final;
+          tmp_interes = tmp_saldo_inicial * tasa_final;
+          tmp_amortizacion = tmp_cuota - tmp_interes;
+          saldo_final = tmp_saldo_inicial - tmp_amortizacion;
+          this.resultados.push({
+            n: i,
+            gracia: "S",
+            saldo_inicial: tmp_saldo_inicial,
+            interes: tmp_interes,
+            amortizacion: tmp_amortizacion,
+            cuota: tmp_cuota,
+            saldo_final: saldo_final
+          });
+        }
+      }
+    }
+    this.isCalculo = true;
+  }
+
+  getTasaFinal(): number {
     let tasa_interes: number = 0;
     let tasa_final: number = 0;
     if (this.isNominal) {
@@ -180,59 +260,121 @@ export class AuthContentComponent {
       }
       tasa_final = ((1 + tasa_interes) ** (this.frecuencia_pago / 360)) - 1;
     }
+    return tasa_final
+  }
 
-    //Calendario
-    let contador_periodo_gracia_total: number = this.total_cantidad;
-    let contador_periodo_gracia_parcial: number = this.parcial_cantidad;
-    let credito_capitalizado: number = saldo_final * (1 + tasa_final) ** this.total_cantidad;
-    for (let i = 0; i <= periodos; i++) {
+  sumaInteres(): number {
+    let suma: number = 0;
+    this.resultados.forEach((element) => {
+      suma += element.interes;
+    });
+    return suma;
+  }
+
+  sumaAmortizacion(): number {
+    let suma: number = 0;
+    this.resultados.forEach((element) => {
+      suma += element.amortizacion;
+    });
+    return suma;
+  }
+
+  sumaCuota(): number {
+    let suma: number = 0;
+    this.resultados.forEach((element) => {
+      suma += element.cuota;
+    });
+    return suma;
+  }
+
+  getFrecuenciaPago(): string {
+    if (this.frecuencia_pago == 30) {
+      return "Mensual";
+    }
+    else if (this.frecuencia_pago == 60) {
+      return "Bimestral";
+    }
+    else if (this.frecuencia_pago == 90) {
+      return "Trimestral";
+    }
+    else if (this.frecuencia_pago == 120) {
+      return "Cuatrimestral";
+    }
+    else if (this.frecuencia_pago == 180) {
+      return "Semestral";
+    }
+    else if (this.frecuencia_pago == 360) {
+      return "Anual";
+    }
+    else {
+      return "";
+    }
+  }
+
+  getVanVal(): number {
+    let van: number = 0;
+    for (let i = 0; i < this.resultados.length; i++) {
       if (i == 0) {
-        this.resultados.push({
-          n: i,
-          gracia: "",
-          saldo_inicial: 0,
-          interes: 0,
-          amortizacion: 0,
-          cuota: 0,
-          saldo_final: saldo_final
-        });
-      } else {
-        if (contador_periodo_gracia_total > 0) {
-          this.resultados.push({
-            n: i,
-            gracia: "T",
-            saldo_inicial: saldo_final,
-            interes: saldo_final * tasa_final,
-            amortizacion: 0,
-            cuota: 0,
-            saldo_final: saldo_final + saldo_final * tasa_final
-          });
-          contador_periodo_gracia_total--;
-        } else if (contador_periodo_gracia_parcial > 0) {
-          this.resultados.push({
-            n: i,
-            gracia: "P",
-            saldo_inicial: saldo_final,
-            interes: saldo_final * tasa_final,
-            amortizacion: 0,
-            cuota: saldo_final * tasa_final,
-            saldo_final: saldo_final + saldo_final * tasa_final
-          });
-          contador_periodo_gracia_parcial--;
-        } else {
-          this.resultados.push({
-            n: i,
-            gracia: "",
-            saldo_inicial: saldo_final,
-            interes: saldo_final * tasa_final,
-            amortizacion: credito_capitalizado / this.total_cantidad,
-            cuota: credito_capitalizado / this.total_cantidad + saldo_final * tasa_final,
-            saldo_final: saldo_final + saldo_final * tasa_final - credito_capitalizado / this.total_cantidad
-          });
-          saldo_final = saldo_final + saldo_final * tasa_final - credito_capitalizado / this.total_cantidad;
-        }
+        van += (this.resultados[i].cuota * -1);
+      }
+      else {
+        van += (this.resultados[i].cuota / ((1 + this.getTasaFinal()) ** i));
       }
     }
-    console.log(this.resultados);
+    return van;
   }
+
+  getVanResult(): string {
+    if (this.getVanVal() > 0) {
+      return "El proyecto es rentable";
+    }
+    else if (this.getVanVal() < 0) {
+      return "El proyecto no es rentable";
+    }
+    else {
+      return "El proyecto es indiferente";
+    }
+  }
+
+  getTirVal(): number {
+    const tolerancia = 0.0001; //Tolerancia para la convergencia
+    let tir: number = 0.1; // Suposición inicial
+
+    if (this.resultados.length == 0) {
+      return 0;
+    }
+    var nuevaTir: number = Number.MAX_VALUE;
+    while (Math.abs(nuevaTir - tir) >= tolerancia) {
+      let vpn = 0;
+      let derivada = 0;
+
+      for (let t = 0; t < this.resultados.length; t++) {
+        vpn += this.resultados[t].cuota / Math.pow((1 + tir), t);
+        derivada -= t * this.resultados[t].cuota / Math.pow((1 + tir), t + 1);
+      }
+
+      nuevaTir = tir - vpn / derivada;
+
+      if (Math.abs(nuevaTir - tir) < tolerancia) {
+        return nuevaTir;
+      }
+
+      tir = nuevaTir;
+    }
+
+    return tir;
+  }
+
+  getTirResult(): string {
+    if (this.getTirVal() > this.getTasaFinal()) {
+      return "El proyecto es rentable";
+    }
+    else if (this.getTirVal() < this.getTasaFinal()) {
+      return "El proyecto no es rentable";
+    }
+    else {
+      return "El proyecto es indiferente";
+    }
+  }
+
 }

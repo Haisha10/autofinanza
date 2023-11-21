@@ -68,12 +68,14 @@
   border: 5px solid;
   border-color: black;
   background-color: lightgreen;
+  cursor: pointer;
 }
 .toOperaciones{
   color: black;
   border: 5px solid;
   border-color: black;
   background-color: lightgray;
+  cursor: pointer;
 }
 
 .header-div2 button{
@@ -400,12 +402,14 @@
       border: 5px solid;
       border-color: black;
       background-color: lightgreen;
+      cursor: pointer;
   }
   .toOperaciones{
       color: black;
       border: 5px solid;
       border-color: black;
       background-color: lightgray;
+      cursor: pointer;
   }
 
   .header-div2 button{
