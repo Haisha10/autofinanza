@@ -3,6 +3,8 @@ import { AxiosService } from '../../axios.service';
 import { User } from 'src/app/models/user.model';
 import { currentUser } from 'src/app/user-info';
 import { Result } from 'src/app/models/result.model';
+import { Data } from '@angular/router';
+import { empty } from 'rxjs';
 
 
 @Component({
@@ -16,7 +18,32 @@ export class AuthContentComponent {
 
   isCalculo: boolean = false;
 
-  data: User = currentUser;
+  user: User = currentUser;
+
+  data: Data = {
+    user_id: 0,
+    tipo_moneda: "",
+    precio: 0,
+    cuota_inicial: 0,
+    isCuotaInicial: true,
+    capital: 0,
+    isCapital: true,
+    banco: "",
+    isNominal: true,
+    isNominalCheckbox: true,
+    valor_tasa_nominal: 0,
+    capitalizacion: 0,
+    isEfectiva: false,
+    isEfectivaCheckbox: true,
+    valor_tasa_efectiva: 0,
+    frecuencia_pago: 0,
+    inicio: new Date(),
+    fin: new Date(),
+    total_desde: 0,
+    total_cantidad: 0,
+    parcial_desde: 0,
+    parcial_cantidad: 0
+  };
 
   tipo_moneda: string = "sol";
 
@@ -57,24 +84,51 @@ export class AuthContentComponent {
   constructor(private axiosService: AxiosService) { }
 
   ngOnInit(): void {
-    /*
     this.axiosService.request(
-        "GET",
-        "/currentUser",
-        {}).then(
+      "GET",
+      "/masterdata",
+      {}).then(
         (response) => {
-            this.data = response.data;
+          this.data = response.data;
+          console.log(this.data);
+          if (!(this.data == null || this.data == undefined || this.data == empty)) {
+            this.isCalculo = false;
+          } else {
+            this.isCalculo = true;
+            this.tipo_moneda = this.data['tipo_moneda'];
+            this.precio = this.data['precio'];
+            this.cuota_inicial = this.data['cuota_inicial'];
+            this.isCuotaInicial = this.data['isCuotaInicial'];
+            this.capital = this.data['capital'];
+            this.isCapital = this.data['isCapital'];
+            this.banco = this.data['banco'];
+            this.isNominal = this.data['isNominal'];
+            this.isNominalCheckbox = this.data['isNominalCheckbox'];
+            this.valor_tasa_nominal = this.data['valor_tasa_nominal'];
+            this.capitalizacion = this.data['capitalizacion'];
+            this.isEfectiva = this.data['isEfectiva'];
+            this.isEfectivaCheckbox = this.data['isEfectivaCheckbox'];
+            this.valor_tasa_efectiva = this.data['valor_tasa_efectiva'];
+            this.frecuencia_pago = this.data['frecuencia_pago'];
+            this.inicio = new Date(this.data['inicio']);
+            this.fin = new Date(this.data['fin']);
+            this.total_desde = this.data['total_desde'];
+            this.total_cantidad = this.data['total_cantidad'];
+            this.parcial_desde = this.data['parcial_desde'];
+            this.parcial_cantidad = this.data['parcial_cantidad'];
+            this.calcular();
+          }
+          this.calcular();
         }).catch(
-        (error) => {
+          (error) => {
             if (error.response.status === 401) {
-                this.axiosService.setAuthToken(null);
+              this.axiosService.setAuthToken(null);
             } else {
-                this.data = error.response.code;
+              this.data = error.response.code;
             }
 
-        }
-    );
-    */
+          }
+        );
   }
 
   scrollToElement(id: string): void {
@@ -223,6 +277,7 @@ export class AuthContentComponent {
       }
     }
     this.isCalculo = true;
+    this.postData();
   }
 
   getTasaFinal(): number {
@@ -377,4 +432,47 @@ export class AuthContentComponent {
     }
   }
 
+  postData(): void {
+    this.data = {
+      user_id: this.user.id,
+      tipo_moneda: this.tipo_moneda,
+      precio: this.precio,
+      cuota_inicial: this.cuota_inicial,
+      isCuotaInicial: this.isCuotaInicial,
+      capital: this.capital,
+      isCapital: this.isCapital,
+      banco: this.banco,
+      isNominal: this.isNominal,
+      isNominalCheckbox: this.isNominalCheckbox,
+      valor_tasa_nominal: this.valor_tasa_nominal,
+      capitalizacion: this.capitalizacion,
+      isEfectiva: this.isEfectiva,
+      isEfectivaCheckbox: this.isEfectivaCheckbox,
+      valor_tasa_efectiva: this.valor_tasa_efectiva,
+      frecuencia_pago: this.frecuencia_pago,
+      inicio: this.inicio,
+      fin: this.fin,
+      total_desde: this.total_desde,
+      total_cantidad: this.total_cantidad,
+      parcial_desde: this.parcial_desde,
+      parcial_cantidad: this.parcial_cantidad
+    };
+    this.axiosService.request(
+      "POST",
+      "/masterdata",
+      this.data).then(
+        (response) => {
+          this.data = response.data;
+        }).catch(
+          (error) => {
+            if (error.response.status === 401) {
+              this.axiosService.setAuthToken(null);
+            } else {
+              this.data = error.response.code;
+            }
+
+          }
+        );
+
+  }
 }
